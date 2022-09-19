@@ -7,6 +7,9 @@ const PORT = 3000;
 const krogerRouter = require('./controllers/krogerController');
 const groceryController = require('./controllers/groceryController');
 const krogerController = require('./controllers/krogerController');
+const cors = require('cors');
+app.use(cors());
+
 
 //check if it exists in database
 // app.use('/addToGroceryList', )
