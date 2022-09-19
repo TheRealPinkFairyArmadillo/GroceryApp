@@ -12,7 +12,8 @@ const krogerController = require('./controllers/krogerController');
 // app.use('/addToGroceryList', )
 
 // get request to check db for input food item
-app.get('/addToList', groceryController.getFood, (req, res) => {
+// newItemName
+app.get('/addToList/:item', groceryController.checkItem, (req, res) => {
   return res.status(200).json(res.locals.food);
 });
 
@@ -20,34 +21,18 @@ app.get('/addToList', groceryController.getFood, (req, res) => {
 //   return res.status(200).json(res.locals.tokenInfo);
 // });
 
-app.get('/krogerapi/getItem', krogerController.getToken, krogerController.getItem, (req, res) => {
-  return res.status(200).json(res.locals.itemInfo);
-});
 
-
-// get request to kroger api for food item data
-//question, we assume we are working with krogerapi, what about others.
-// app.get(
-//   '/krogerapi',
-//   krogerRouter.getToken,
-//   krogerRouter.getMilk,
-//   groceryController.postInfo,
-//   (req, res) => {
-//     console.log('hello world');
-//     return res.status(200).send('food not found in db');
-//   }
-// );
-
-// get request to kroger api for food item data
+// get request to grab token and then fetch item data from kroger api
 app.get(
-  '/krogerapi',
-  /* getapidata, postdatatodb */ (req, res) => {
-    console.log('hello world');
-    return res.status(200).send('food not found in db');
+  '/krogerapi/getItem/:item',
+  krogerController.getToken,
+  krogerController.getItem,
+  groceryController.addItem,
+  (req, res) => {
+    return res.status(200).json(res.locals.itemInfo);
   }
 );
 
-// hello world test test test
 
 
 // catch-all route handler for any requests to an unknown route
