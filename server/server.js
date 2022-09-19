@@ -19,6 +19,7 @@ app.get('/addToList', groceryController.getFood, (req, res) => {
 app.get('/krogerapi/token', krogerController.getToken, (req, res) => {
   return res.status(200).json(res.locals.tokenInfo);
 });
+
 // get request to kroger api for food item data
 //question, we assume we are working with krogerapi, what about others.
 // app.get(
