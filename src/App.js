@@ -7,6 +7,7 @@ import Header from './components/Header';
 // import InputBox from './components/InputBox'; // This component was transplanted to this page
 import ShoppingCart from './components/ShoppingCart';
 import Footer from './components/Footer';
+import GoogleAuth from './components/GoogleAuth';
 
 function App() {
 
@@ -110,7 +111,6 @@ function App() {
         <br />
         {/* SHOPPING CART foodName = {val.food_name}*/}
         <ShoppingCart totalPrice={totalPrice}/>
-
         <div className="shoppingListDisplay">
           {groceryList.map((val, key) => {
             return (
