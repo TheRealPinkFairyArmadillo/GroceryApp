@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Recipe from './Recipe';
 
 const RecipeSearch = (props) => {
@@ -6,7 +6,8 @@ const RecipeSearch = (props) => {
   //create a fetch to the server to request recipes to display
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('/api/recipes', {
+          //req perams for the search
+    fetch(`/api/recipes/search?:id=${e}`, {
       method: 'GET',
       headers: {
       'Content-Type': "application/json"
@@ -21,8 +22,8 @@ const RecipeSearch = (props) => {
           // key={i}
           // img={...}
           // name={...}
-          // price={...}
           // ingredients={...}
+          // url={...}
           />)
       }
       //updating the state to be equal to the new array of recipes from the server
@@ -30,7 +31,23 @@ const RecipeSearch = (props) => {
     })
 
     //second fetch call to get pricing for each ingredient???
+    useEffect(() => {
+      
+    })
     
+    fetch('/recipes/ingredients', {
+      method: 'GET',
+      body: JSON.stringify({
+        [currentRegion]: numberOfStretches,
+      }),
+      headers: {
+        'Content-Type': "application/json"
+      }
+    })
+    // description
+    // img
+    // qty
+    // price
   }
 
   return (
