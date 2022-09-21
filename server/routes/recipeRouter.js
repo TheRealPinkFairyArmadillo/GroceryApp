@@ -11,7 +11,7 @@ router.use((req, res, next) => {
     next();
 })
 
-router.get('/search/:query', recipeController.getRecipes, recipeController.returnRecipes, (req, res) => {
+router.get('/search/', recipeController.getRecipes, recipeController.returnRecipes, (req, res) => {
     console.log(`server/routes/recipeRouter.js.router.get('/search'): received request ${req.method} ${req.url}`);
     res.status(200).json(res.locals.recipes);
 })
