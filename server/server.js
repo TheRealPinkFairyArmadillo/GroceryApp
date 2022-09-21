@@ -42,6 +42,29 @@ app.use('/users', dbRouter)
 // app.get('/addToList/:item', groceryController.checkItem, (req, res) => {
 //   return res.status(200).json(res.locals.food);
 // });
+//import routers
+const list = require('./routes/listRouter');
+const recipe = require('./routes/recipeRouter');
+const user = require('./routes/userRouter');
+
+
+app.use(cors());
+app.use(express.json());
+// app.use(cookieParser());
+
+//serve the dist folder (build)
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
+//add routers
+app.use('/user', user);
+app.use('/recipes', recipe);
+app.use('/list', list);
+
+
+app.get('/addToList/:item', krogerController.getToken, (req, res) => {
+  return res.status(200).json(res.locals.food);
+});
+
 
 // // app.get('/krogerapi/token', krogerController.getToken, (req, res) => {
 // //   return res.status(200).json(res.locals.tokenInfo);
@@ -58,21 +81,26 @@ app.use('/users', dbRouter)
 //   }
 // );
 
-// catch-all route handler for any requests to an unknown route
-app.use('*', (req, res) =>
-  res.status(404).send("This is not the page you're looking for...")
-);
+//default 404 handeler
+app.use((req, res) => {
+  console.log(`server/app.js: handler not found for request ${req.method} ${req.url}`);
+  res
+      .status(404)
+      .send(
+      'Page not found'
+      );
+});
 
-// global error handler
+//global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-    status: 500,
     message: { err: 'An error occurred' },
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
   };
-  const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
-  return res.status(errorObj.status).json(errorObj.message);
+  const errObj = Object.assign(defaultErr, err);
+  console.log('ErrorObject Log: ', errObj.log);
+  res.status(errObj.status).send(errObj.message);
 });
 
 app.listen(PORT, () => {
