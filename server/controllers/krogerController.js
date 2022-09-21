@@ -1,5 +1,6 @@
 const krogerController = {};
-
+const base64 = require('base-64');
+const fetch = require('cross-fetch');
 // Declare an empty object
 // Store token data in this object
 const tokenData = {};
@@ -11,22 +12,26 @@ const tokenData = {};
 // expires_in: 1800 *NOTE* in milliseconds (1800ms = 30 minutes)
 // token_type: "bearer"
 
+const client_id = 'recipezy-48ea7f3e9633ceb7b3a08fb11ebceb7f2097557129825701077'
+const client_secret = '7NkEQCz6WLGLINvPKznSAcBWf1X5toR7bssESU5j'
+//const encoded = utf8_to_b64(client_id + ":" + client_secret);
+const encoded = base64.encode(client_id+":"+client_secret)
+
 krogerController.getToken = (req, res, next) => {
-  console.log('in getToken');
   fetch('https://api.kroger.com/v1/connect/oauth2/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic Z2V0Z3JvY2VyaWVzLTMxNTE3YTA4MDlmZTQ2NzAzNDJiOTI4Y2JmYjEwZWRkNjM4ODYwNTc5OTc5NDcwMDUzNjo5bUJnSWZZaWRyQjNoQ0VzNFdMTXV5VGROV3dOX1hoLW1LdjB4aEJH`,
+      Authorization: 'Basic ' + encoded,
     },
     body: 'grant_type=client_credentials&scope=product.compact',
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       tokenData.accessToken = data.access_token;
       tokenData.expiresIn = data.expires_in;
       tokenData.tokenType = data.token_type;
-
       res.locals.tokenInfo = tokenData;
       // added a next statement
       return next();
