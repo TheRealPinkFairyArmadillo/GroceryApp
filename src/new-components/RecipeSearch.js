@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Recipe from '...';
+// import Recipe from '...';
 
-const RecipeSearch = () => {
+const RecipeSearch = (props) => {
 
-  const [recipes, setRecipes] = useState([]);
-
-  useEffect(() => {
-
-  })
   //create a fetch to the server to request recipes
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,14 +18,15 @@ const RecipeSearch = () => {
       let recipeList = [];
       for (let i = 0; i < data.length; i++){
         recipeList.push(<Recipe 
-          img={...}
-          key={i}
-          name={...}
-          price={...}
+          // key={i}
+          // img={...}
+          // name={...}
+          // price={...}
+          // ingredients={...}
           />)
       }
       //updating the state to be equal to the new array of recipes from the server
-      setRecipes(recipeList);
+      props.setRecipes(recipeList);
     })
   }
 
@@ -50,7 +46,7 @@ const RecipeSearch = () => {
         </form>
       </div>
       <div>
-        {recipes}
+        {props.recipes}
       </div>
     </div>
   );
