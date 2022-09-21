@@ -11,8 +11,6 @@ import GroceryList from '...';
 
 const App = () => {
 //create State here to pass down to the child components
-  
-  const [recipes, setRecipes] = useState([]);
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [groceries, setGroceries] = useState([]);
   
@@ -23,11 +21,7 @@ const App = () => {
         {/* not quite sure on how to wrap our pages with authentication */}
         <Route element={<SignIn/>} /> 
         
-        <Route path='/' element={<RecipeSearch
-          recipes={recipes}
-          setRecipes={setRecipes}
-          />}
-          />  
+        <Route path='/' element={<RecipeSearch/>}/>  
         <Route path='/recipes' element={<RecipeDetails
           recipeIngredients={recipeIngredients}
           setRecipeIngredients={setRecipeIngredients}
