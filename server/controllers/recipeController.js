@@ -1,5 +1,4 @@
 const recipeController = {};
-const base64 = require('base-64');
 const fetch = require('cross-fetch');
 
 const APP_ID = '900da95e';
@@ -16,12 +15,20 @@ recipeController.getRecipes = async (req, res, next) => {
         q: query,
     }
     fetch(URL + new URLSearchParams(params))
-    .then((res) => res.json())
-    .then((data) => {
-      res.locals.recipes = data;
-      // added a next statement
-      return next();
-    })
+      .then((res) => res.json())
+      .then((data) => {
+        res.locals.recipes = data;
+        // added a next statement
+        return next();
+      })
+      .catch((error) => {
+        next(
+          {
+            message: { err: error },
+            log: 'cannot retrieve data from edamam API',
+          }
+        )
+      })
 }
 
 module.exports = recipeController;
