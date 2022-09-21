@@ -4,25 +4,32 @@ const app = express();
 const PORT = 3000;
 const cors = require('cors');
 
+//import routers
+const list = require('./routes/listRouter');
+const recipe = require('./routes/recipeRouter');
+const user = require('./routes/userRouter');
+
+//TEMP!!!!!
+const krogerController = require('./controllers/krogerController')
+const groceryController = require('./controllers/groceryController')
+
 app.use(cors());
+app.use(express.json());
+// app.use(cookieParser());
 
-// imports
-const krogerRouter = require('./controllers/krogerController');
-const groceryController = require('./controllers/groceryController');
-const krogerController = require('./controllers/krogerController');
+//serve the dist folder (build)
+app.use(express.static(path.resolve(__dirname, '../dist')));
 
-//check if it exists in database
-// app.use('/addToGroceryList', )
+//add routers
+app.use('/user', user);
+app.use('/recipe', recipe);
+app.use('/list', list);
 
-// get request to check db for input food item
-// newItemName
-app.get('/addToList/:item', groceryController.checkItem, (req, res) => {
+
+app.get('/addToList/:item', krogerController.getToken, (req, res) => {
   return res.status(200).json(res.locals.food);
 });
 
-// app.get('/krogerapi/token', krogerController.getToken, (req, res) => {
-//   return res.status(200).json(res.locals.tokenInfo);
-// });
 
 // get request to grab token and then fetch item data from kroger api
 app.get(
@@ -35,21 +42,26 @@ app.get(
   }
 );
 
-// catch-all route handler for any requests to an unknown route
-app.use('*', (req, res) =>
-  res.status(404).send("This is not the page you're looking for...")
-);
+//default 404 handeler
+app.use((req, res) => {
+  console.log(`server/app.js: handler not found for request ${req.method} ${req.url}`);
+  res
+      .status(404)
+      .send(
+      'Page not found'
+      );
+});
 
-// global error handler
+//global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-    status: 500,
     message: { err: 'An error occurred' },
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
   };
-  const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
-  return res.status(errorObj.status).json(errorObj.message);
+  const errObj = Object.assign(defaultErr, err);
+  console.log('ErrorObject Log: ', errObj.log);
+  res.status(errObj.status).send(errObj.message);
 });
 
 app.listen(PORT, () => {
