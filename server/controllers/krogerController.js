@@ -46,10 +46,6 @@ krogerController.getToken = (req, res, next) => {
     );
 };
 
-// Test call to the Kroger server
-// Hard coded the product name on line 43: filter.term=milk
-
-//req params req body
 
 krogerController.getItem2 = (req, res, next) => {
   const { ingredientsList } = req.body;
