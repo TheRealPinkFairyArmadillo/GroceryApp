@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-// import Recipe from '...';
+import React from 'react';
+import Recipe from './Recipe';
 
 const RecipeSearch = (props) => {
 
-  //create a fetch to the server to request recipes
+  //create a fetch to the server to request recipes to display
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch('/api/recipes', {
@@ -28,6 +28,9 @@ const RecipeSearch = (props) => {
       //updating the state to be equal to the new array of recipes from the server
       props.setRecipes(recipeList);
     })
+
+    //second fetch call to get pricing for each ingredient???
+    
   }
 
   return (

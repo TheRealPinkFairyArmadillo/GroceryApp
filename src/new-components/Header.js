@@ -4,13 +4,10 @@ import { Link } from 'react-router-dom';
 
 const Header = (props) => {
 
-  // const loginPage = () => {
-  //   fetch('/login')
-  // }
-
   if (props.user) { 
     return (
       <header className="header">
+        {/* We can add a logo here if we want instead of text */}
         <h3>RecipEZY</h3>
         <h5> Hello, {props.user}</h5>
       </header>
