@@ -1,6 +1,7 @@
 const krogerController = {};
 const base64 = require('base-64');
 const fetch = require('cross-fetch');
+const { json } = require('express');
 // Declare an empty object
 // Store token data in this object
 const tokenData = {};
@@ -28,7 +29,6 @@ krogerController.getToken = (req, res, next) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       tokenData.accessToken = data.access_token;
       tokenData.expiresIn = data.expires_in;
       tokenData.tokenType = data.token_type;
@@ -36,7 +36,14 @@ krogerController.getToken = (req, res, next) => {
       // added a next statement
       return next();
     })
-    .catch((error) => next(error));
+    .catch((error) =>
+    next(
+      {
+        message: { err: error },
+        log: 'cannot retrieve data from edamam API',
+      }
+    )  
+    );
 };
 
 // Test call to the Kroger server
@@ -44,37 +51,81 @@ krogerController.getToken = (req, res, next) => {
 
 //req params req body
 
-//https://api.kroger.com/v1//products?filter.term=bread&filter.locationId=01400943&filter.limit=1
-krogerController.getItem = (req, res, next) => {
-  console.log('in getItem');
-  fetch(
-    `https://api.kroger.com/v1/products?filter.term=${req.params.item}}&filter.locationId=01400943&filter.limit=1`,
-    {
+krogerController.getItem2 = (req, res, next) => {
+  const { ingredientsList } = req.body;
+  const itemInfo = {};
+  const test = [];
+  const urls = [];
+  ingredientsList.forEach((ingredient) => {
+    urls.push(`https://api.kroger.com/v1/products?filter.term=${ingredient}}&filter.locationId=01400943&filter.limit=1`)
+  })
+  // use map() to perform a fetch and handle the response for each url
+  Promise.all(urls.map((url, index) =>
+    fetch(url, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${tokenData.accessToken}`,
         'Access-Control-Allow-Origin': '*',
       },
-    }
-  )
-    .then((res) => res.json())
-    .then((info) => {
-      // narrow down the properties we want from the response object that Kroger gives us
-      // food name, upc, price, size
-      const itemDetails = {
-        food_name: info.data[0].description,
-        upc: info.data[0].upc,
-        food_price: info.data[0].items[0].price.regular,
-        food_size: info.data[0].items[0].size,
-      };
-      // store only the data we want in res.locals, to later create new row in db
-      res.locals.itemInfo = itemDetails;
-      return next();
     })
-    .catch((err) => {
-      return next({ error: 'error with krogerController.getItem' });
-    });
+      .then((res) => res.json())                 
+      .then((data) => itemInfo[ingredientsList[index]] = data)
+      .catch((err) => console.log(err))
+  ))
+  .then(data => {
+    console.log(itemInfo);
+    res.locals.itemInfo = itemInfo;
+    next();
+    // do something with the data
+  })
+}
+
+
+
+//https://api.kroger.com/v1//products?filter.term=bread&filter.locationId=01400943&filter.limit=1
+krogerController.getItem = (req, res, next) => {
+  const { ingredientsList } = req.body;
+  const itemInfo = {};
+  Promise.all(ingredientsList.forEach( async (ingredient) => {
+    console.log(ingredient);
+    fetch(
+      `https://api.kroger.com/v1/products?filter.term=${ingredient}}&filter.locationId=01400943&filter.limit=1`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${tokenData.accessToken}`,
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((info) => {
+        // narrow down the properties we want from the response object that Kroger gives us
+        // food name, upc, price, size
+        itemInfo[ingredient] = {
+          food_name: info.data[0].description,
+          upc: info.data[0].upc,
+          food_price: info.data[0].items[0].price.regular,
+          food_size: info.data[0].items[0].size,
+        };
+        console.log(itemInfo);
+        // store only the data we want in res.locals, to later create new row in db
+      })
+      .catch((error) =>
+      next(
+        {
+          message: { err: error },
+          log: 'cannot retrieve data from edamam API',
+        }
+      )  
+      );
+  }))
+  .then((data) => {
+    res.locals.itemInfo = itemInfo;
+    return next();
+  })
 };
 
 module.exports = krogerController;

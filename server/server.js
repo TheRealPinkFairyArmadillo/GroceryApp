@@ -22,7 +22,7 @@ app.use(express.static(path.resolve(__dirname, '../dist')));
 
 //add routers
 app.use('/user', user);
-app.use('/recipe', recipe);
+app.use('/recipes', recipe);
 app.use('/list', list);
 
 
