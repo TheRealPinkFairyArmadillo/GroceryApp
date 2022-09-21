@@ -1,0 +1,23 @@
+.recipes {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  height: 10%;
+  align-items: center;
+  background-color: white;
+  border-width: 1px;
+  border-color: darkgrey;
+  box-shadow: 5px 5px 5px .2px;
+  margin-top: 10px;
+}
+
+.recipe-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 1%;
+}
+
+.recipe-image {
+  margin: 1%;
+}

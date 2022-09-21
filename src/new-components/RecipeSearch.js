@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Recipe from './Recipe';
+import '../stylesheets/RecipeSearch.css'
 
 const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
 
@@ -12,17 +13,18 @@ const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
     //take the recipes from the server and push them into a new array to be displayed
     .then(resp => resp.json())
     .then(data => {
-      console.log(data)
-      let recipeList = [];
-      for (let i = 0; i < data.length; i++){
+      console.log(data); 
+      const recipeList = [];
+      for (let key in data){
         recipeList.push(<Recipe 
-          // key={i}
-          // img={...}
-          // name={...}
-          // ingredients={...}
-          // url={...}
+          key={key}
+          img={data[key].image}
+          name={data[key].name}
+          ingredients={data[key].ingredients}
+          url={data[key].url}
           />)
       }
+      console.log(recipeList)
       //updating the state to be equal to the new array of recipes from the server
       setRecipes(recipeList);
     })
@@ -48,7 +50,7 @@ const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
   }
 
   return (
-    <div>
+    <div className="recipe-search">
       <div className='search-area'>
         <form className='message-form' onSubmit={e => handleSubmit(e)}>
           <input className='search-box'
@@ -58,11 +60,11 @@ const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
             autoComplete='off'
             />
           <button type='submit' className='recipe-button'>
-            Get Recipes
+            Search
           </button>
         </form>
       </div>
-      <div>
+      <div className="recipe-tiles">
         {recipes}
       </div>
     </div>
