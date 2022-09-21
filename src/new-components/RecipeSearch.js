@@ -30,9 +30,9 @@ const RecipeSearch = (props) => {
       props.setRecipes(recipeList);
     })
 
-    //second fetch call to get pricing for each ingredient???
+    //second fetch call to get pricing for each ingredient once the recipe state is populated
     useEffect(() => {
-      
+      // if (props.stretches)
     })
     
     fetch('/recipes/ingredients', {

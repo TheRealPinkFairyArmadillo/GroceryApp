@@ -15,10 +15,16 @@ const App = () => {
   const [groceries, setGroceries] = useState([]);
   const [user, setUser] = useState(false);
   
+  // const updateUserState = (currentState) => {
+  //   setUser(currentState);
+  // }
+
+  // console.log(updateUserState)
   return (
     <Router>
       <Header 
       user={user}
+      setUser={setUser}
       />
       <Routes>
         {/* not quite sure on how to wrap our pages with authentication */}
