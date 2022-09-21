@@ -1,21 +1,18 @@
 import React, { useEffect } from 'react';
 import Recipe from './Recipe';
 
-const RecipeSearch = (props) => {
+const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
 
   //create a fetch to the server to request recipes to display
   const handleSubmit = (e) => {
     e.preventDefault();
-          //req perams for the search
-    fetch(`/api/recipes/search?:id=${e}`, {
-      method: 'GET',
-      headers: {
-      'Content-Type': "application/json"
-      }
-    })
+      //req perams for the search
+    console.log(e.target.recipe.value);
+    fetch(`/recipes/search/?id=${e.target.recipe.value}`)
     //take the recipes from the server and push them into a new array to be displayed
     .then(resp => resp.json())
     .then(data => {
+      console.log(data)
       let recipeList = [];
       for (let i = 0; i < data.length; i++){
         recipeList.push(<Recipe 
@@ -27,7 +24,7 @@ const RecipeSearch = (props) => {
           />)
       }
       //updating the state to be equal to the new array of recipes from the server
-      props.setRecipes(recipeList);
+      setRecipes(recipeList);
     })
 
     //second fetch call to get pricing for each ingredient once the recipe state is populated
@@ -35,15 +32,15 @@ const RecipeSearch = (props) => {
       // if (props.stretches)
     })
     
-    fetch('/recipes/ingredients', {
-      method: 'GET',
-      body: JSON.stringify({
-        [currentRegion]: numberOfStretches,
-      }),
-      headers: {
-        'Content-Type': "application/json"
-      }
-    })
+    // fetch('/recipes/ingredients', {
+    //   method: 'GET',
+    //   body: JSON.stringify({
+    //     [currentRegion]: numberOfStretches,
+    //   }),
+    //   headers: {
+    //     'Content-Type': "application/json"
+    //   }
+    // })
     // description
     // img
     // qty
@@ -66,7 +63,7 @@ const RecipeSearch = (props) => {
         </form>
       </div>
       <div>
-        {props.recipes}
+        {recipes}
       </div>
     </div>
   );

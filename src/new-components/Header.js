@@ -8,22 +8,10 @@ const Header = ({ user, setUser }) => {
   return(
     <header className="header">
       <h3>RecipEZY</h3>
-      {/* <GoogleAuthContainer 
-        user={user}
-        setUser={setUser}
-        /> */}
       <GoogleAuth 
         user={user}
         setUser={setUser}
         />
-      {/* <Link to={'/login'}>
-        <button 
-          type="button"
-          className="login-button">
-          Login
-        </button>
-      </Link> */}
-      {/* <button className="signup-button">Sign-up</button> */}
     </header>
   )
 }

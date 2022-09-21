@@ -33,6 +33,7 @@ const App = () => {
         <Route path='/' element={<RecipeSearch
           recipes={recipes}
           setRecipes={setRecipes}
+          setGroceries={setGroceries}
           />}
           />  
         {/* <Route path='/recipes' element={<RecipeDetails
