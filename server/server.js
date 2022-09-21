@@ -1,39 +1,62 @@
+//library imports
 const path = require('path');
 const express = require('express');
 const app = express();
 const PORT = 3000;
 const cors = require('cors');
+const mongoose = require('mongoose')
 
-app.use(cors());
-
-// imports
+//file imports
 const krogerRouter = require('./controllers/krogerController');
 const groceryController = require('./controllers/groceryController');
 const krogerController = require('./controllers/krogerController');
 
-//check if it exists in database
-// app.use('/addToGroceryList', )
+app.use(express.json())
+app.use(cors());
 
-// get request to check db for input food item
-// newItemName
-app.get('/addToList/:item', groceryController.checkItem, (req, res) => {
-  return res.status(200).json(res.locals.food);
-});
+//? Do I need to add access for all IPs?
+const MONGO_URI = 'mongodb+srv://mcmcgowan:grocerEZ@cluster0.bzzcwf9.mongodb.net/?retryWrites=true&w=majority'
+//mcmcgowan - grocerEZ
 
-// app.get('/krogerapi/token', krogerController.getToken, (req, res) => {
-//   return res.status(200).json(res.locals.tokenInfo);
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+mongoose.connection.once('open', () => {
+  console.log('Connected to Database')
+})
+
+const dbRouter = require ('./routes/dbRouter')
+app.use('/users', dbRouter)
+
+
+
+
+
+
+// //check if it exists in database
+// // app.use('/addToGroceryList', )
+
+// // get request to check db for input food item
+// // newItemName
+// app.get('/addToList/:item', groceryController.checkItem, (req, res) => {
+//   return res.status(200).json(res.locals.food);
 // });
 
-// get request to grab token and then fetch item data from kroger api
-app.get(
-  '/krogerapi/getItem/:item',
-  krogerController.getToken,
-  krogerController.getItem,
-  groceryController.addItem,
-  (req, res) => {
-    return res.status(200).json(res.locals.itemInfo);
-  }
-);
+// // app.get('/krogerapi/token', krogerController.getToken, (req, res) => {
+// //   return res.status(200).json(res.locals.tokenInfo);
+// // });
+
+// // get request to grab token and then fetch item data from kroger api
+// app.get(
+//   '/krogerapi/getItem/:item',
+//   krogerController.getToken,
+//   krogerController.getItem,
+//   groceryController.addItem,
+//   (req, res) => {
+//     return res.status(200).json(res.locals.itemInfo);
+//   }
+// );
 
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) =>

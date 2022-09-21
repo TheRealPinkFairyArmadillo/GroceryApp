@@ -1,0 +1,13 @@
+### Get all users
+GET http://localhost:3000/users/
+
+### Get one user users/:googleId
+GET http://localhost:3000/users/someId
+
+### create user
+POST http://localhost:3000/users/
+Content-Type: application/json
+
+{
+    "googleId": "someId" 
+}

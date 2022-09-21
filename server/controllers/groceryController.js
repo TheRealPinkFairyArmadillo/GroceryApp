@@ -1,4 +1,4 @@
-const db = require('../models/groceryModels');
+const db = require('../models/userModel');
 
 // const krogerRouter = require('')
 
