@@ -1,4 +1,24 @@
 .recipe-title h3 {
-    text-decoration: underline;
+    text-decoration: underline 5px dotted;
+    font-size: 40px;   
+}
 
+.recipe-ingredients{
+    width: 75vw;
+    height: 65vw;
+    overflow-x: auto;
+}
+
+.ingredients{
+    font-size: 14px;
+    border-bottom-style: 4px dotted rgba(255, 255, 255, 0.6);
+}
+
+.grocery-button{
+border: none;
+  border-radius: 4px;
+  color: #f28534;
+  background: white;
+  margin-bottom: 4px;
+  width: 30vw;
 }

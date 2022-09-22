@@ -11,7 +11,7 @@ const Ingredients = ({name, quantity, price}) => {
         <div>{price}</div>
       </div>
       <div>
-        <button className='Grocery Button' onClick={e => addToGroceryList(e)}>Add to Grocery List</button>
+        <button className='grocery-button' onClick={e => addToGroceryList(e)}>Add to Grocery List</button>
       </div>
     </div>
   )
