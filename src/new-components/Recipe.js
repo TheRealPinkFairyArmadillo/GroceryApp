@@ -2,7 +2,6 @@ import React from 'react';
 import '../stylesheets/Recipe.css';
 
 const Recipe = ({img, name, ingredients, url}) => {
-    // console.log(props)
   //render individual recipes (flexbox with align centers, and space between)
     //display the name of the recipe with the total price below (flexbox with columns and space-around)
     //img of the recipe to be on the right side

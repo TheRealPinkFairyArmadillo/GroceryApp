@@ -9,6 +9,7 @@
   border-color: darkgrey;
   box-shadow: 5px 5px 5px .2px;
   margin-top: 10px;
+  border-radius: 4px;
 }
 
 .recipe-info {

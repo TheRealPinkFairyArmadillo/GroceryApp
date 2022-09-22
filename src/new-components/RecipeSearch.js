@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import Recipe from './Recipe';
 import '../stylesheets/RecipeSearch.css'
 
+let recipeList = [];
+
+
 const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
 
   //create a fetch to the server to request recipes to display
@@ -14,25 +17,29 @@ const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
     .then(resp => resp.json())
     .then(data => {
       console.log(data); 
-      const recipeList = [];
-      for (let key in data){
+      //updating the state to be equal to the new array of recipes from the server
+      setRecipes(data);
+    })
+  }
+    useEffect(() => {
+      if (recipeList.length > 1) recipeList = [];
+      console.log('Use Effect Running')
+      for (let key in recipes){
+        console.log(key)
         recipeList.push(<Recipe 
           key={key}
-          img={data[key].image}
-          name={data[key].name}
-          ingredients={data[key].ingredients}
-          url={data[key].url}
+          img={recipes[key].image}
+          name={recipes[key].name}
+          ingredients={recipes[key].ingredients}
+          url={recipes[key].url}
           />)
-      }
-      console.log(recipeList)
-      //updating the state to be equal to the new array of recipes from the server
-      setRecipes(recipeList);
-    })
+        }
+        console.log(recipeList);
+        // run a new function to send data back for pricing
+    },[recipes])
 
-    //second fetch call to get pricing for each ingredient once the recipe state is populated
-    useEffect(() => {
-      // if (props.stretches)
-    })
+     //second fetch call to get pricing for each ingredient once the recipe state is populated
+
     
     // fetch('/recipes/ingredients', {
     //   method: 'GET',
@@ -47,7 +54,7 @@ const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
     // img
     // qty
     // price
-  }
+  
 
   return (
     <div className="recipe-search">
@@ -65,7 +72,7 @@ const RecipeSearch = ({recipes, setRecipes, setGroceries}) => {
         </form>
       </div>
       <div className="recipe-tiles">
-        {recipes}
+        {recipeList}
       </div>
     </div>
   );
