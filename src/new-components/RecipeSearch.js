@@ -4,7 +4,7 @@ import '../stylesheets/RecipeSearch.css'
 
 
 
-const RecipeSearch = ({ recipes, getRecipes, getRecipeDetails }) => {  
+const RecipeSearch = ({ recipes, getRecipes, setRecipeDetail }) => {  
   // console.log(recipes);
   //create an array of objects to display on the recipeSearch page
   const currRecipes = [];
@@ -16,7 +16,7 @@ const RecipeSearch = ({ recipes, getRecipes, getRecipeDetails }) => {
       ingredients={recipes[key].ingredients}
       url={recipes[key].url}
       price={recipes[key].price}
-      getRecipeDetails={getRecipeDetails}
+      setRecipeDetail={setRecipeDetail}
       />)
   }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 // import './stylesheets/App.scss';
 import Header from './new-components/Header';
 // import SignIn from '...';
@@ -8,33 +8,14 @@ import RecipeDetails from './new-components/RecipeDetails';
 // import GroceryList from '...';
 
 //not too sure about the organization of the sign-in page vs the home page in regards to priority
-function useStateWithCallback(initialState) {
-  const [state, setState] = useState(initialState);
-
-  const callbackRef = useRef(null);
-
-  const setStateCallback = (state, callback) => {
-    callbackRef.current = callback; // store passed callback to ref
-    setState(state);
-  };
-
-  useEffect(() => {
-    if (callbackRef.current) {
-      callbackRef.current(state);
-      callbackRef.current = null; // reset callback
-    }
-  }, [state]);
-
-  return [state, setStateCallback];
-}
 
 
 const App = () => {
   //state that holds a single object of each query
-  const [recipes, setRecipes] = useStateWithCallback();
+  const [recipes, setRecipes] = useState();
   //state used to render the recipe tiles on recipeSearch page
   const [recipeList, setRecipeList] = useState([])
-  const [recipeDetail, setRecipeDetail] = useState(null)
+  const [recipeDetail, setRecipeDetail] = useState(undefined)
   const [groceries, setGroceries] = useState([]);
   const [user, setUser] = useState(false);
   
@@ -110,8 +91,7 @@ const App = () => {
       newRecipes[recipeName].ingredientDetails = detailedIngredients
       newRecipes[recipeName].price = price;
       console.log('recipes before', recipes);
-      await awaitSetRecipes(newRecipes);
-      console.log('recipes after', recipes);
+        console.log('recipes after', recipes);
       }
     //   //send a request to the server to get pricing on all items in the ingredients array
     //!!!needs to be changed for when we do all recipes
@@ -125,13 +105,14 @@ const App = () => {
     })
   }
   //onClick from the individual recipe tiles, this should populate the groceryList as well as the recipeDetail page
-  const getRecipeDetails = (e) => {
-    e.preventDefault();
-    //!! didn't finish logic on this one
-    let recipe = e.currentTarget.id
-    console.log('Selected: ', recipe)
-    setRecipeDetail(recipe)
-  }
+  // const getRecipeDetail = (e) => {
+  //   e.preventDefault();
+  //   //!! didn't finish logic on this one
+  //   let recipeName = e.currentTarget.id;
+  //   console.log('Selected: ', recipeName);
+  //   setRecipeDetail(recipeName);
+  //   Navigate("/recipes");
+  // }
 
   return (
     <Router>
@@ -144,7 +125,7 @@ const App = () => {
           recipes={recipes}
           recipeList={recipeList}
           getRecipes={getRecipes}
-          getRecipeDetails={getRecipeDetails}
+          setRecipeDetail={setRecipeDetail}
           />}
           />  
         <Route path='/recipes' element={<RecipeDetails
