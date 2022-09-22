@@ -1,27 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import '../stylesheets/Recipe.css';
+// import '../stylesheets/RecipeDetails.css';
 
-const Recipe = ({img, name, ingredients, url, price, setGroceries}) => {
-  //render individual recipes (flexbox with align centers, and space between)
+const RecipeDetails = ({recipes, recipeDetail}) => {
+  //render the ingredients of the recipe selected
     //display the name of the recipe with the total price below (flexbox with columns and space-around)
     //img of the recipe to be on the right side
-    console.log(price);
+    console.log(recipeDetail);
+    console.log(recipes)
   return (  
-    <div className="recipes">
-      <div className="recipe-info">
-        <p><strong>Recipe:</strong> <a href={url} target="_blank">{name}</a></p>
-        <p><strong>Price:</strong> {price}</p>
-        <Link to="/recipes">
-          <button id={name}>Get Ingredients</button>
-        </Link>
-      </div>
-      <div></div>
-      <div className="recipe-image">
-        <img src={img} alt="Recipe image"/>
+    <div className="recipe-title">
+      <h3>{recipes[recipeDetail].name}</h3>
+      <div className="recipe-ingredients">
+        <p>Ingredient</p>
       </div>
     </div>
   )
 }
 
-export default Recipe;
+export default RecipeDetails;
