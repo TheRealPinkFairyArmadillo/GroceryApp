@@ -78,14 +78,15 @@ krogerController.getItem2 = (req, res, next) => {
       .then((data) => {
         // this is the path for individual pricing based on ingredient name
         let ingredientName = ingredientsList[index]
-        // console.log(data.data)
-        console.log(ingredientName);
         test[recipe][ingredientName] = {};
+        let images = data.data[0].images[0].sizes
+        for(let i = 0; i < images.length; i++){
+          if(images[i].size === 'small'){
+            test[recipe][ingredientName].picture = images[i].url;
+          }
+        }
         test[recipe][ingredientName].description = data.data[0].description;
         test[recipe][ingredientName].price = data.data[0].items[0].price.regular;
-        // test[recipe][ingredientName].picture = data.data[0].images[0];
-        // test.push([ingredientsList[index], data.data[0].description, data.data[0].items[0].price.regular])
-        // next()
       })
       .catch((err) => console.log(err))
   ))

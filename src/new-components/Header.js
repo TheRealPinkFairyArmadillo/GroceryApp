@@ -7,11 +7,11 @@ const Header = ({ user, setUser }) => {
   
   return(
     <header className="header">
-      <h3>RecipEZY</h3>
-      <GoogleAuth 
+       <GoogleAuth 
         user={user}
         setUser={setUser}
         />
+        <h3>RecipEZY</h3>
     </header>
   )
 }
