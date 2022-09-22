@@ -1,0 +1,32 @@
+.recipe-search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+.search-area {
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.message-form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-box{
+  width: 50%;
+}
+
+.recipe-tiles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

@@ -46,17 +46,25 @@ krogerController.getToken = (req, res, next) => {
     );
 };
 
-
-krogerController.getItem2 = (req, res, next) => {
+//Getting an error somewhere in here. I'm sending individual objects, where the first key is the recipe and the value is an array of ingredients
+krogerController.getItem2 = async (req, res, next) => {
   const { ingredientsList } = req.body;
-  const itemInfo = {};
-  const test = [];
+  const recipe = Object.keys(req.body)
+  const test = [recipe];
   const urls = [];
-  ingredientsList.forEach((ingredient) => {
-    urls.push(`https://api.kroger.com/v1/products?filter.term=${ingredient}}&filter.locationId=01400943&filter.limit=1`)
-  })
+  for (let key in req.body){
+    // console.log(key);
+    req.body[key].forEach((ingredient) => {
+      console.log(ingredient)
+      urls.push(`https://api.kroger.com/v1/products?filter.term=${ingredient}&filter.locationId=01400943&filter.limit=1`)
+    })
+  }
+  // console.log(urls)
+  // ingredientsList.forEach((ingredient) => {
+  //   urls.push(`https://api.kroger.com/v1/products?filter.term=${ingredient}}&filter.locationId=01400943&filter.limit=1`)
+  // })
   // use map() to perform a fetch and handle the response for each url
-  Promise.all(urls.map((url, index) =>
+  await Promise.all(urls.map((url, index) =>
     fetch(url, {
       method: 'GET',
       headers: {
@@ -66,12 +74,17 @@ krogerController.getItem2 = (req, res, next) => {
       },
     })
       .then((res) => res.json())                 
-      .then((data) => itemInfo[ingredientsList[index]] = data)
+      .then((data) => {
+        // this is the path for individual pricing based on ingredient name
+        // console.log(data.data)
+        test.push([index, data.data[0].description, data.data[0].items[0].price.regular])
+        // next()
+      })
       .catch((err) => console.log(err))
   ))
   .then(data => {
-    console.log(itemInfo);
-    res.locals.itemInfo = itemInfo;
+    // console.log(itemInfo);
+    res.locals.itemInfo = test;
     next();
     // do something with the data
   })
