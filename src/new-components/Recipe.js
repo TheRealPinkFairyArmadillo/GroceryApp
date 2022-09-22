@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../stylesheets/Recipe.css';
 
 const Recipe = ({img, name, url, price, setRecipeDetail}) => {
@@ -9,7 +9,6 @@ const Recipe = ({img, name, url, price, setRecipeDetail}) => {
     //display the name of the recipe with the total price below (flexbox with columns and space-around)
     //img of the recipe to be on the right side
     // console.log(price);
-    let path = 'recipes/' + name
     const Navigate = useNavigate();
 
   return (  

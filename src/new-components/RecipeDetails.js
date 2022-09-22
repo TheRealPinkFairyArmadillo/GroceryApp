@@ -10,16 +10,18 @@ const RecipeDetails = ({recipes, recipeDetail}) => {
     const recipeName = recipeDetail.target.id
     console.log(recipes[recipeName])
     const displayIngredients = [];
+
     for (let i = 0; i < recipes[recipeName].ingredientDetails.length; i++) {
       displayIngredients.push(<Ingredients 
         name={recipes[recipeName].ingredientDetails[i].food.description}
-        quantity={recipes[recipeName].ingredientDetails[i].quantity + recipes[recipeName].ingredientDetails[i].measure}
+        quantity={`${recipes[recipeName].ingredientDetails[i].quantity} ${recipes[recipeName].ingredientDetails[i].measure}`}
         price={recipes[recipeName].ingredientDetails[i].food.price}
+        key={i+'recipeList'}
         />)
     }
   return (  
     <div className="recipe-title">
-      <h3>{recipes[recipeName]}</h3>
+      <h3>{recipeDetail.target.id}</h3>
       <div className="recipe-ingredients">
         {displayIngredients}
       </div>

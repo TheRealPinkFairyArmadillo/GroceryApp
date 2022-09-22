@@ -2,13 +2,17 @@ import React from 'react';
 // import '../stylesheets/Ingredients.css';
 
 const Ingredients = ({name, quantity, price}) => {
-  
-    // console.log(recipeDetail);
    
   return (  
     <div className="ingredients">
-      <div>{name}</div>
-      <div>{quantity}</div>
+      <div>
+        <div>{quantity}</div>
+        <div>{name}</div>
+        <div>{price}</div>
+      </div>
+      <div>
+        <button className='Grocery Button' onClick={e => addToGroceryList(e)}>Add to Grocery List</button>
+      </div>
     </div>
   )
 }
