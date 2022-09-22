@@ -46,7 +46,7 @@ krogerController.getToken = (req, res, next) => {
     );
 };
 
-
+//Getting an error somewhere in here. I'm sending individual objects, where the first key is the recipe and the value is an array of ingredients
 krogerController.getItem2 = (req, res, next) => {
   const { ingredientsList } = req.body;
   const itemInfo = {};
