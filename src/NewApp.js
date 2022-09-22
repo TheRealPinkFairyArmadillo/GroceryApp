@@ -87,11 +87,12 @@ const App = () => {
       }
 
       //make a copy of the recipe
-      let newRecipes = JSON.parse(JSON.stringify(recipes));
-      newRecipes[recipeName].ingredientDetails = detailedIngredients
-      newRecipes[recipeName].price = price;
-      console.log('recipes before', recipes);
-        console.log('recipes after', recipes);
+      setRecipes((oldrecipe) => {
+        let newRecipes = JSON.parse(JSON.stringify(oldrecipe));
+        newRecipes[recipeName].ingredientDetails = detailedIngredients
+        newRecipes[recipeName].price = price;
+        return newRecipes
+      })
       }
     //   //send a request to the server to get pricing on all items in the ingredients array
     //!!!needs to be changed for when we do all recipes
