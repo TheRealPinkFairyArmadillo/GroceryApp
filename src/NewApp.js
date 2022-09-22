@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import './stylesheets/App.scss';
 import Header from './new-components/Header';
@@ -22,7 +22,6 @@ const App = () => {
   const getRecipes = (e) => {
     e.preventDefault();
       //req perams for the search
-    // console.log(e.target.recipe.value);
       //request recipes based on the client entry in the search bar
     fetch(`/recipes/search/?id=${e.target.recipe.value}`)
     .then(resp => resp.json())
@@ -57,16 +56,9 @@ const App = () => {
   //get pricing on all ingredients from each recipe
   const getPricing = async (recipes) => {
     //grab each recipe from the recipes object
-    // console.log(`Get Pricing Running for...`);
-    //!!!get a single recipes ingredients ***testing***
-    // const firstRecipe = Object.keys(recipes)[0]
-    // const ingredients = [];
-    // for(let i = 0; i < recipes[firstRecipe].ingredientDetails.length; i++){
-    //   ingredients.push(recipes[firstRecipe].ingredientDetails[i].food)
-    // }
     for (let key in recipes) {
       //create empty array to push all of the ingredients as a string into
-      const ingredients = []
+      const ingredients = [];
       //grab each ingredient from the list
       for (let i = 0; i < recipes[key].ingredientDetails.length; i++) {
         ingredients.push(recipes[key].ingredientDetails[i].food)
@@ -87,30 +79,13 @@ const App = () => {
 
       //make a copy of the recipe
       setRecipes((oldrecipe) => {
+        console.log("Old Recipe:", oldrecipe);
         let newRecipes = JSON.parse(JSON.stringify(oldrecipe));
         newRecipes[recipeName].ingredientDetails = detailedIngredients
         newRecipes[recipeName].price = price;
         return newRecipes
       })
-      }
-    //   //send a request to the server to get pricing on all items in the ingredients array
-    //!!!needs to be changed for when we do all recipes
-  }
-
-  const awaitSetRecipes = (newRecipes) => {
-    return new Promise(resolve => {
-      setRecipes(newRecipes, () => {
-        resolve();
-      })
-    })
-  }
-  //onClick from the individual recipe tiles, this should populate the groceryList as well as the recipeDetail page
-  const getRecipeDetails = (e) => {
-    e.preventDefault();
-    //!! didn't finish logic on this one
-    let recipe = e.currentTarget.id
-    console.log('Selected: ', recipe)
-    setRecipeDetail(recipe)
+    }
   }
 
   return (
@@ -124,7 +99,7 @@ const App = () => {
           recipes={recipes}
           recipeList={recipeList}
           getRecipes={getRecipes}
-          getRecipeDetails={getRecipeDetails}
+          setRecipeDetail={setRecipeDetail}
           />}
           />  
         <Route path='/recipes' element={<RecipeDetails
