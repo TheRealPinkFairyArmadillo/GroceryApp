@@ -88,6 +88,10 @@ const App = () => {
     }
   }
 
+  const addToGroceryList = (e) => {
+
+  }
+
   return (
     <Router>
       <Header 
@@ -106,6 +110,7 @@ const App = () => {
           recipes={recipes}
           recipeDetail={recipeDetail}
           setGroceries={setGroceries}
+          user={user}
           />} 
           />
         {/* <Route path='/groceries' element={<GroceryList

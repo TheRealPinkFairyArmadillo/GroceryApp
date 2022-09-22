@@ -13,8 +13,8 @@ const tokenData = {};
 // expires_in: 1800 *NOTE* in milliseconds (1800ms = 30 minutes)
 // token_type: "bearer"
 
-const client_id = 'recipezy-48ea7f3e9633ceb7b3a08fb11ebceb7f2097557129825701077'
-const client_secret = '7NkEQCz6WLGLINvPKznSAcBWf1X5toR7bssESU5j'
+const client_id = 'recipesz-f9a2e53e4c0f883ee0dd978c67b24d718020873917048390920'
+const client_secret = 'UfNZjWBpD7cVbam3k-g8gMIESYDBkK41ZH1KvFOe'
 //const encoded = utf8_to_b64(client_id + ":" + client_secret);
 const encoded = base64.encode(client_id+":"+client_secret)
 
