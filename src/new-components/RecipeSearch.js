@@ -4,7 +4,22 @@ import '../stylesheets/RecipeSearch.css'
 
 
 
-const RecipeSearch = ({recipes, recipeList, getRecipes}) => {  
+const RecipeSearch = ({ recipes, getRecipes, getRecipeDetails }) => {  
+  // console.log(recipes);
+  //create an array of objects to display on the recipeSearch page
+  const currRecipes = [];
+  for (let key in recipes){
+    currRecipes.push(<Recipe 
+      key={key}
+      img={recipes[key].image}
+      name={recipes[key].name}
+      ingredients={recipes[key].ingredients}
+      url={recipes[key].url}
+      price={recipes[key].price}
+      getRecipeDetails={getRecipeDetails}
+      />)
+  }
+
 
   return (
     <div className="recipe-search">
@@ -22,7 +37,7 @@ const RecipeSearch = ({recipes, recipeList, getRecipes}) => {
         </form>
       </div>
       <div className="recipe-tiles">
-        {recipeList}
+        {currRecipes}
       </div>
     </div>
   );
