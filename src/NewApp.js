@@ -28,6 +28,7 @@ const App = () => {
     .then(data => {
       //updating the state to be equal to an object that contains the recipies as keys to utilize for the backend
       setRecipes(data);
+      getPricing(data);
     })
   }
   
