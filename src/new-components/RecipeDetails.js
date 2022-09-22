@@ -21,7 +21,8 @@ const RecipeDetails = ({recipes, recipeDetail, addToGroceryList, user}) => {
     }
   return (  
     <div className="recipe-title">
-      <h3>{recipeDetail.target.id}</h3>
+      <h2>{recipeDetail.target.id}</h2>
+      <img src={recipes[recipeName].image}/>
       <div className="recipe-ingredients">
         {displayIngredients}
       </div>
