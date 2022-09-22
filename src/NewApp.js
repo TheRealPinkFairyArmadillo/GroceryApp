@@ -11,8 +11,9 @@ import RecipeDetails from './new-components/RecipeDetails';
 //not too sure about the organization of the sign-in page vs the home page in regards to priority
 
 const App = () => {
-//create State here to pass down to the child components
+  //state that holds a single object of each query
   const [recipes, setRecipes] = useState();
+  //state used to render the recipe tiles on recipeSearch page
   const [recipeList, setRecipeList] = useState([])
   const [recipeDetail, setRecipeDetail] = useState(null)
   const [groceries, setGroceries] = useState([]);
@@ -48,8 +49,11 @@ const App = () => {
     })
   }
   
+  //calling this funciton for every recipe loaded on the recipeSearch page
   const fetchApi = (key, value) => {
+    console.log(`${key} = ${value}`)
     console.log("Running fetchApi")
+    //sending the backend a post request that is an object, with the recipe as key and the array of ingredients as the value
     fetch('/recipes/ingredients', {
       method: "POST",
       headers: {
@@ -60,12 +64,13 @@ const App = () => {
     })
     .then(resp => resp.json())
     .then(data => {
+      //!!logging each array that comes back (currently getting an array with the recipe, and then every ingredient with index number, name, and price)
       console.log(data)
     })
   }
 
   //get pricing on all ingredients from each recipe
-  const getPricing = (recipes) => {
+  const getPricing = async (recipes) => {
     //grab each recipe from the recipes object
     console.log(`Get Pricing Running for...`);
     for (let key in recipes) {
@@ -76,27 +81,15 @@ const App = () => {
       for (let i = 0; i < recipes[key].ingredientDetails.length; i++) {
         ingredients.push(recipes[key].ingredientDetails[i].food)
       }
+      //send a request to the server to get pricing on all items in the ingredients array
       fetchApi(key, ingredients)
     }
-    //send a request for each recipe to the backend for all recipes in the recipe Object
-    //   await fetch('/recipe', {
-    //     method: "GET",
-    //     body: {[key]: ingredients},
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   })
-    //   .then(resp => resp.json())
-    //   .then(data => {
-    //     console.log(data)
-    //   })
-    // }
-    // console.log("getPricing done")
   }
 
-  //onClick from the individual recipe tiles, this will then send the data from the recipe clicked so that the correct ingredients will be passed through
+  //onClick from the individual recipe tiles, this should populate the groceryList as well as the recipeDetail page
   const getRecipeDetails = (e) => {
     e.preventDefault();
+    //!! didn't finish logic on this one
     const newList = recipeDetail;
     let recipe = e.currentTarget.id
     setRecipeDetail({[recipe]: newList})

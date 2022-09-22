@@ -17,7 +17,7 @@ router.get('/search/', recipeController.getRecipes, recipeController.returnRecip
 })
 //MD Changed this to a POST route so that I can send a body (Now hitting an error in getItem2)
 router.post('/ingredients/', krogerController.getToken, krogerController.getItem2, (req, res) =>{
-    console.log(`getting items from kroger`, res.locals);
+    console.log(`getting items from kroger`/*, res.locals*/);
     res.status(200).json(res.locals.itemInfo);
 })
 
