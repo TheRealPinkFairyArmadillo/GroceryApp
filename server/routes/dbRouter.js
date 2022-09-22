@@ -14,13 +14,13 @@ router.get('/:googleId', dbControllers.getUser, (req, res) => {
 
 //create user
 router.post('/', dbControllers.createUser, (req, res) => {
-   return res.status(200).json(res.locals.user)
+   return res.status(201).json(res.locals.user)
 })
 
-// //add ingredient to user grocery list
-// router.patch('/', async (req, res) => {
-
-// })
+//replace db's copy of groceryList with new copy from state after manipulation
+router.patch('/:googleId', dbControllers.updateGroceryList, (req, res) => {
+  return res.status(200).json(res.locals.updatedUser)
+})
 
 // //decrement/delete ingredient from user grocery list
 // router.delete('/:id', async (req, res) => {
