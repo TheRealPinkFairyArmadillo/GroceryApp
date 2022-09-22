@@ -1,17 +1,14 @@
 import React from 'react';
 // import '../stylesheets/Ingredients.css';
 
-const Ingredients = ({name, quantity, price}) => {
+const Ingredients = ({name, price, picture}) => {
    
   return (  
     <div className="ingredients">
       <div>
-        <div>{quantity}</div>
+        <img src={picture} alt='ingredient image'/>
         <div>{name}</div>
         <div>{price}</div>
-      </div>
-      <div>
-        <button className='Grocery Button' onClick={e => addToGroceryList(e)}>Add to Grocery List</button>
       </div>
     </div>
   )

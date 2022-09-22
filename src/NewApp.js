@@ -28,7 +28,6 @@ const App = () => {
     .then(data => {
       //updating the state to be equal to an object that contains the recipies as keys to utilize for the backend
       setRecipes(data);
-      getPricing(data);
     })
   }
   
@@ -88,6 +87,10 @@ const App = () => {
     }
   }
 
+  const addToGroceryList = (e) => {
+
+  }
+
   return (
     <Router>
       <Header 
@@ -106,6 +109,7 @@ const App = () => {
           recipes={recipes}
           recipeDetail={recipeDetail}
           setGroceries={setGroceries}
+          user={user}
           />} 
           />
         {/* <Route path='/groceries' element={<GroceryList
