@@ -51,8 +51,10 @@ const App = () => {
   
   //calling this funciton for every recipe loaded on the recipeSearch page
   const fetchApi = (key, value) => {
+    return new Promise(resolve => {
     console.log(`${key} = ${value}`)
     console.log("Running fetchApi")
+    console.log({[key]: value})
     //sending the backend a post request that is an object, with the recipe as key and the array of ingredients as the value
     fetch('/recipes/ingredients', {
       method: "POST",
@@ -65,25 +67,51 @@ const App = () => {
     .then(resp => resp.json())
     .then(data => {
       //!!logging each array that comes back (currently getting an array with the recipe, and then every ingredient with index number, name, and price)
-      console.log(data)
+      console.log('data', data)
+      resolve(data);
     })
+  })
   }
 
   //get pricing on all ingredients from each recipe
   const getPricing = async (recipes) => {
     //grab each recipe from the recipes object
     console.log(`Get Pricing Running for...`);
-    for (let key in recipes) {
-      console.log(`${key}`)
-      //create empty array to push all of the ingredients as a string into
-      const ingredients = []
-      //grab each ingredient from the list
-      for (let i = 0; i < recipes[key].ingredientDetails.length; i++) {
-        ingredients.push(recipes[key].ingredientDetails[i].food)
-      }
-      //send a request to the server to get pricing on all items in the ingredients array
-      fetchApi(key, ingredients)
+    //!!!get a single recipes ingredients ***testing***
+    const firstRecipe = Object.keys(recipes)[0]
+    const ingredients = [];
+    for(let i = 0; i < recipes[firstRecipe].ingredientDetails.length; i++){
+      ingredients.push(recipes[firstRecipe].ingredientDetails[i].food)
     }
+
+    // for (let key in recipes) {
+    //   console.log(`${key}`)
+    //   //create empty array to push all of the ingredients as a string into
+    //   const ingredients = []
+    //   //grab each ingredient from the list
+    //   for (let i = 0; i < recipes[key].ingredientDetails.length; i++) {
+    //     ingredients.push(recipes[key].ingredientDetails[i].food)
+    //   }
+    //   //send a request to the server to get pricing on all items in the ingredients array
+    const data = await fetchApi(firstRecipe, ingredients)
+    const recipeName = Object.keys(data)[0];
+    console.log(recipes);
+    let detailedIngredients = recipes[recipeName].ingredientDetails
+    //iterate through the ingredients
+    let currentFood;
+    let price = 0;
+    for(let i = 0; i < detailedIngredients.length; i++){
+      currentFood = detailedIngredients[i].food;
+      detailedIngredients[i].food = data[recipeName][currentFood];
+      price = price + data[recipeName][currentFood].price;
+    }
+    console.log(detailedIngredients);
+
+    //make a copy of the recipe
+    const newRecipes = JSON.parse(JSON.stringify(recipes));
+    newRecipes[recipeName].ingredientDetails = detailedIngredients
+    newRecipes[recipeName].price = price;
+    setRecipes(newRecipes);
   }
 
   //onClick from the individual recipe tiles, this should populate the groceryList as well as the recipeDetail page

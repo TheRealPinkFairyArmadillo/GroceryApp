@@ -47,10 +47,11 @@ krogerController.getToken = (req, res, next) => {
 };
 
 //Getting an error somewhere in here. I'm sending individual objects, where the first key is the recipe and the value is an array of ingredients
-krogerController.getItem2 = async (req, res, next) => {
-  const { ingredientsList } = req.body;
+krogerController.getItem2 = (req, res, next) => {
   const recipe = Object.keys(req.body)
-  const test = [recipe];
+  const ingredientsList = req.body[recipe]
+  const test = {};
+  test[recipe] = {};
   const urls = [];
   for (let key in req.body){
     // console.log(key);
@@ -64,7 +65,7 @@ krogerController.getItem2 = async (req, res, next) => {
   //   urls.push(`https://api.kroger.com/v1/products?filter.term=${ingredient}}&filter.locationId=01400943&filter.limit=1`)
   // })
   // use map() to perform a fetch and handle the response for each url
-  await Promise.all(urls.map((url, index) =>
+  Promise.all(urls.map((url, index) =>
     fetch(url, {
       method: 'GET',
       headers: {
@@ -76,13 +77,19 @@ krogerController.getItem2 = async (req, res, next) => {
       .then((res) => res.json())                 
       .then((data) => {
         // this is the path for individual pricing based on ingredient name
-        // console.log(data.data)
-        test.push([index, data.data[0].description, data.data[0].items[0].price.regular])
+        let ingredientName = ingredientsList[index]
+        console.log(data.data)
+        console.log(ingredientName);
+        test[recipe][ingredientName] = {};
+        test[recipe][ingredientName].description = data.data[0].description;
+        test[recipe][ingredientName].price = data.data[0].items[0].price.regular;
+
+        // test.push([ingredientsList[index], data.data[0].description, data.data[0].items[0].price.regular])
         // next()
       })
       .catch((err) => console.log(err))
   ))
-  .then(data => {
+  .then(() => {
     // console.log(itemInfo);
     res.locals.itemInfo = test;
     next();
