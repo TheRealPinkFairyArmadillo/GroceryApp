@@ -8,30 +8,10 @@ import RecipeDetails from './new-components/RecipeDetails';
 // import GroceryList from '...';
 
 //not too sure about the organization of the sign-in page vs the home page in regards to priority
-function useStateWithCallback(initialState) {
-  const [state, setState] = useState(initialState);
-
-  const callbackRef = useRef(null);
-
-  const setStateCallback = (state, callback) => {
-    callbackRef.current = callback; // store passed callback to ref
-    setState(state);
-  };
-
-  useEffect(() => {
-    if (callbackRef.current) {
-      callbackRef.current(state);
-      callbackRef.current = null; // reset callback
-    }
-  }, [state]);
-
-  return [state, setStateCallback];
-}
-
 
 const App = () => {
   //state that holds a single object of each query
-  const [recipes, setRecipes] = useStateWithCallback();
+  const [recipes, setRecipes] = useState();
   //state used to render the recipe tiles on recipeSearch page
   const [recipeList, setRecipeList] = useState([])
   const [recipeDetail, setRecipeDetail] = useState(null)
@@ -106,12 +86,12 @@ const App = () => {
       }
 
       //make a copy of the recipe
-      let newRecipes = JSON.parse(JSON.stringify(recipes));
-      newRecipes[recipeName].ingredientDetails = detailedIngredients
-      newRecipes[recipeName].price = price;
-      console.log('recipes before', recipes);
-      await awaitSetRecipes(newRecipes);
-      console.log('recipes after', recipes);
+      setRecipes((oldrecipe) => {
+        let newRecipes = JSON.parse(JSON.stringify(oldrecipe));
+        newRecipes[recipeName].ingredientDetails = detailedIngredients
+        newRecipes[recipeName].price = price;
+        return newRecipes
+      })
       }
     //   //send a request to the server to get pricing on all items in the ingredients array
     //!!!needs to be changed for when we do all recipes
