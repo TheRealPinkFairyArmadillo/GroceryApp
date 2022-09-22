@@ -48,5 +48,30 @@
     width: 75%;
     overflow-x: auto;
   }
+
+  h2 {
+    font-size: 15px;
+  }
+
+  .recipe-title img {
+    width: 15vw;
+    height: auto;
+  }
+
+  .ingredients {
+    font-size: 10px;
+  }
+
+  .recipe-ingredients{
+    height: 140vw;
+    overflow-x: auto;
+    text-align: center;
+  }
+
+  .ingredients div{
+    display: block;
+  }
+
+
   }
   
