@@ -1,0 +1,28 @@
+### Get all users
+GET http://localhost:3000/users/
+
+### Get one user users/:googleId
+GET http://localhost:3000/users/Matthew
+
+### create user
+POST http://localhost:3000/users/
+Content-Type: application/json
+
+{
+    "googleId": "Matthew" 
+}
+
+### Add ingredients
+PATCH  http://localhost:3000/users/Matthew
+Content-Type: application/json
+
+{
+    "newGroceryList": {
+        "ingredient" : "butter",
+        "quantity" : 1,
+        "price" : 4.5
+    }
+}
+
+### change ingredients
+POST http://localhost:3000/users/Matthew
